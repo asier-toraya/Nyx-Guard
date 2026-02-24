@@ -16,11 +16,11 @@ Además de eso:
 
 ## Vista rápida de uso
 En el día a día, funciona así:
-1. navegas normal por una web
+1. Navegas normal por una web
 2. Nyx Guard escanea la página en segundo plano
-3. en el icono ves fiabilidad (badge)
-4. si abres popup, ves score, nivel y razones
-5. si el riesgo se dispara, salta notificación
+3. En el icono ves fiabilidad (badge)
+4. Si abres popup, ves score, nivel y razones
+5. Si el riesgo se dispara, salta notificación
 
 ## Instalación local
 ### Requisitos
@@ -38,10 +38,10 @@ npm install
 npm run build
 ```
 3. Cargar extensión en Chrome:
-- abre `chrome://extensions`
-- activa `Developer mode`
-- pulsa `Load unpacked`
-- selecciona la carpeta `dist`
+- Abre `chrome://extensions`
+- Activa `Developer mode`
+- Pulsa `Load unpacked`
+- Selecciona la carpeta `dist`
 
 Si cambias código:
 1. `npm run build`
@@ -58,21 +58,21 @@ Los niveles salen de umbrales configurables en Settings:
 
 ## Qué señales usa
 Nyx Guard mezcla varias fuentes:
-- patrones de login sospechoso (password + keywords)
-- overlays invasivos y presión para activar notificaciones
-- iframes ocultos
-- densidad de trackers
-- estructura de DOM cargada de bloques tipo ad
-- punycode en dominio
-- lista de confianza/bloqueo (allowlist/denylist)
-- reputación de dominio con VirusTotal (opcional)
+- Patrones de login sospechoso (password + keywords)
+- Overlays invasivos y presión para activar notificaciones
+- Iframes ocultos
+- Densidad de trackers
+- Estructura de DOM cargada de bloques tipo ad
+- Punycode en dominio
+- Lista de confianza/bloqueo (allowlist/denylist)
+- Reputación de dominio con VirusTotal (opcional)
 
 ## Integración con VirusTotal
 Se activa en `Settings`:
-1. abrir popup de Nyx Guard
+1. Abrir popup de Nyx Guard
 2. `Settings`
-3. activar `Use VirusTotal reputation`
-4. pegar API key
+3. Activar `Use VirusTotal reputation`
+4. Pegar API key
 5. `Save`
 
 Estado visible en popup:
@@ -81,70 +81,66 @@ Estado visible en popup:
 - `VT: error` -> fallo de API/red/cuota/permisos
 
 Detalles técnicos importantes:
-- consulta endpoint de dominios (`/api/v3/domains/{domain}`)
-- usa cache en memoria
-- aplica rate limit interno para no quemar cuota free
-- manda dominio, no formularios ni datos sensibles
+- Consulta endpoint de dominios (`/api/v3/domains/{domain}`)
+- Usa cache en memoria
+- Aplica rate limit interno para no quemar cuota free
+- Manda dominio, no formularios ni datos sensibles
 
 ## Alertas de peligro
 Si está activo `enableDangerAlerts`, cuando el score entra cerca de `high` Nyx Guard manda notificación.
 
 Regla actual:
-- inicio de `high`: `mediumMax + 1`
-- alerta temprana: desde `highStart - 5`
-- cooldown por dominio/pestaña para evitar spam
+- Inicio de `high`: `mediumMax + 1`
+- Alerta temprana: desde `highStart - 5`
+- Cooldown por dominio/pestaña para evitar spam
 
 ## Badge del icono (sin abrir popup)
 El icono muestra la fiabilidad directamente:
-- número del badge = `100 - riesgo`
-- color según nivel:
-  - verde: `low`
-  - amarillo: `medium`
-  - rojo: `high`
+- Número del badge = `100 - riesgo`
+- Color según nivel:
+  - Verde: `low`
+  - Amarillo: `medium`
+  - Rojo: `high`
 
 También actualiza el tooltip con fiabilidad, riesgo y nivel.
 
-## UI e iconos
-- icono principal: estilo neutro gris/negro con escudo y `NX`
-- icono de alerta: separado para notificaciones
-
-## Arquitectura (resumen real)
+## Arquitectura
 `src/content/content_script.ts`
-- recoge features de la página
-- envía `nyxguard:features`
-- responde `nyxguard:scanNow` para re-scan inmediato
+- Recoge features de la página
+- Envía `nyxguard:features`
+- Responde `nyxguard:scanNow` para re-scan inmediato
 
 `src/background/service_worker.ts`
-- orquesta el flujo
-- mezcla features + trackers + VT
-- calcula resultado
-- guarda por pestaña
-- lanza alertas
-- actualiza badge
+- Orquesta el flujo
+- Mezcla features + trackers + VT
+- Calcula resultado
+- Guarda por pestaña
+- Lanza alertas
+- Actualiza badge
 
 `src/scoring/engine.ts`
-- aplica pesos
-- usa sensibilidad
-- clampa score
-- calcula nivel
+- Aplica pesos
+- Usa sensibilidad
+- Clampa score
+- Calcula nivel
 
 `src/storage/settings.ts`
-- defaults y persistencia
-- validación de umbrales
-- parseo de allow/deny list
+- Defaults y persistencia
+- Validación de umbrales
+- Parseo de allow/deny list
 
 `src/ui/popup/*`
-- score, nivel, razones
-- estado VT
+- Score, nivel, razones
+- Estado VT
 - Trust / Block
 
 `src/ui/options/*`
-- toggles de detección
-- sensibilidad
-- umbrales de nivel
+- Toggles de detección
+- Sensibilidad
+- Umbrales de nivel
 - API key VT
-- alertas
-- allow/deny list
+- Alertas
+- Allow/deny list
 
 ## Pesos actuales
 Fuente: `src/scoring/rules.ts`
@@ -199,32 +195,32 @@ scripts/
 ```
 
 ## Privacidad
-- no se capturan valores de formularios
+- No se capturan valores de formularios
 - `pageTextSample` viene desactivado por defecto
-- con VT activo, se envía dominio (no contenido del formulario)
+- Con VT activo, se envía dominio (no contenido del formulario)
 
 ## Limitaciones actuales
-- sigue siendo heurístico: puede haber falsos positivos/negativos
+- Sigue siendo heurístico: puede haber falsos positivos/negativos
 - VT depende de cuota y estado de API key
-- no reemplaza análisis profundo de malware o sandbox dinámico
+- No reemplaza análisis profundo de malware o sandbox dinámico
 
 ## Solución de problemas rápida
 ### El service worker aparece "inactivo"
 Normal en MV3. Se despierta al recibir eventos o mensajes.
 
 ### No veo llamadas a VirusTotal
-- revisa que VT esté activado y con API key guardada
-- abre popup en una página `http/https` para forzar reescaneo
-- mira estado `VT:` en popup
+- Revisa que VT esté activado y con API key guardada
+- Abre popup en una página `http/https` para forzar reescaneo
+- Mira estado `VT:` en popup
 
 ### No me salta alerta
-- confirma `enableDangerAlerts` activo
-- verifica que el score realmente entra en zona de alerta
-- revisa notificaciones del sistema/Chrome
-- recarga extensión tras cada build
+- Confirma `enableDangerAlerts` activo
+- Verifica que el score realmente entra en zona de alerta
+- Revisa notificaciones del sistema/Chrome
+- Recarga extensión tras cada build
 
 ## License
-Copyright (c) 2026 Asier. All rights reserved.
+Copyright (c) 2026 Asier González. All rights reserved.
 
 This repository is public for viewing purposes only.
 You may not use, copy, modify, or distribute this code without prior written permission.
