@@ -1,0 +1,46 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nyx Guard</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div class="title">Nyx Guard</div>
+        <div class="subtitle">MVP Risk Snapshot</div>
+      </header>
+
+      <section class="site">
+        <div class="site-domain" id="siteDomain">-</div>
+        <div class="site-url" id="siteUrl">-</div>
+      </section>
+
+      <section class="score">
+        <div class="score-value" id="scoreValue">-</div>
+        <div class="score-level" id="scoreLevel">-</div>
+      </section>
+
+      <section class="status" id="status">Collecting signals...</section>
+      <section class="vt-status" id="vtStatus">VT: no data</section>
+
+      <section class="reasons">
+        <div class="reasons-title">Reasons</div>
+        <ul id="reasonsList"></ul>
+      </section>
+
+      <section class="actions">
+        <button id="trustBtn" class="btn">Trust this site</button>
+        <button id="blockBtn" class="btn btn-secondary">Block this site</button>
+      </section>
+
+      <footer>
+        <button id="settingsBtn" class="link-btn">Settings</button>
+      </footer>
+    </div>
+
+    <script type="module" src="./popup.ts"></script>
+  </body>
+</html>
