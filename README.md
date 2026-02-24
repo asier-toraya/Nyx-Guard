@@ -222,7 +222,5 @@ Normal en MV3. Se despierta al recibir eventos o mensajes.
 - Recarga extensión tras cada build
 
 ## License
-Copyright (c) 2026 Asier González. All rights reserved.
-
-This repository is public for viewing purposes only.
-You may not use, copy, modify, or distribute this code without prior written permission.
+This project is licensed under the MIT License.
+See [LICENSE](./LICENSE) for details.
