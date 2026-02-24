@@ -3,8 +3,8 @@
 ![Nyx Guard](/NyxGuardImageL.png)
 
 ## Qué es Nyx Guard y qué hace
-Nyx Guard es una extensión de Chrome que hice para tener una lectura rápida de riesgo cuando entro en una web.
-La idea no es reemplazar un antivirus ni un SOC, sino dar una capa práctica de contexto: abrir una página y ver en segundos si huele raro.
+Nyx Guard es una extensión para navegadores Chromium que hice para tener una lectura rápida de riesgo cuando entro en una web.
+La idea no es reemplazar un antivirus ni un otros servicios, tampoco bloquea nada, sino que aporta una capa práctica de contexto: abrir una página y ver en segundos si huele raro.
 
 La extensión analiza señales de la página, suma un score de riesgo (`0..100`) y lo traduce a algo más intuitivo:
 - riesgo alto = más peligro
